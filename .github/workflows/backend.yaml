@@ -2,11 +2,11 @@ name: build backend image
 
 on:
   workflow_dispatch:
-    push:
-      branches:
-        - main
-      paths:
-        - 'backend/**'
+  push:
+    paths:
+      - 'backend/**'
+    branches:
+      - main
 
 jobs:
   push:
