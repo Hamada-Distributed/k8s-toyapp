@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Toy App Frontend</title>
+    </head>
+    <body>
+        <p>A basic statically served frontend!</p>
+
+        <button onclick="logBackend()">Click me</button>
+    </body>
+
+
+    <script>
+      function makeRequest(method, url){
+        return new Promise(function(resolve, reject){
+          const xhr = new XMLHttpRequest();
+          xhr.open(method, url);
+          xhr.onload = function(){
+              if (xhr.status >=200 && xhr.status < 300){
+                resolve(xhr.response);
+              } else {
+                reject({
+                  status: xhr.status,
+                  statusText: xhr.statusText
+                });
+              }
+          };
+          xhr.onerror = function(){
+            reject({
+              status: xhr.status,
+              statusText: xhr.statusText
+            });
+          };
+          xhr.send();
+        });
+      };
+
+      async function logBackend(){
+        let result = await makeRequest( "GET", /*window.location.origin*/ 'http://localhost:3000' + "/api/hello" );
+        console.log(result);
+      };
+    </script>
+</html>
