@@ -36,7 +36,7 @@
       };
 
       async function logBackend(){
-        let result = await makeRequest( "GET", /*window.location.origin*/ 'http://localhost:3000' + "/api/hello" );
+        let result = await makeRequest( "GET", window.location.origin + "/api/hello" );
         console.log(result);
       };
     </script>
