@@ -28,4 +28,4 @@ jobs:
           platforms: linux/arm64
           push: true
           tags: |
-            ghcr.io/Hamada-Distributed/k8s-toyapp:backend
+            ghcr.io/hamada-distributed/k8s-toyapp:backend
