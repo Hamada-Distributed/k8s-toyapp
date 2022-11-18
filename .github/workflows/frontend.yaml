@@ -29,4 +29,26 @@ jobs:
           platforms: linux/arm64,linux/amd64
           push: true
           tags: |
-            ghcr.io/hamada-distributed/k8s-toyapp:frontend
+            ghcr.io/hamada-distributed/k8s-toyapp:frontend-${{ github.sha }}
+  test:
+    name: "frontend:test"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: docker/setup-qemu-action@v2
+      - uses: docker/setup-buildx-action@v2
+      - uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Pull and test image
+        run: |
+          docker pull ghcr.io/hamada-distributed/k8s-toyapp:frontend-${{ github.sha }}
+          docker run -d -p 8000:8000 ghcr.io/hamada-distributed/k8s-toyapp:frontend-${{ github.sha }}
+          curl localhost:8000/
+          exit $?
+      - name: Push new image
+        run: |
+          docker tag ghcr.io/hamada-distributed/k8s-toyapp:frontend-${{ github.sha }} ghcr.io/hamada-distributed/k8s-toyapp:frontend
+          docker push ghcr.io/hamada-distributed/k8s-toyapp:frontend
