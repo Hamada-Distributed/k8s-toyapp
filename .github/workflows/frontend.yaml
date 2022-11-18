@@ -28,8 +28,7 @@ jobs:
           file: ./frontend/Dockerfile
           platforms: linux/arm64,linux/amd64
           push: true
-          tags: |
-            ghcr.io/hamada-distributed/k8s-toyapp:frontend-${{ github.sha }}
+          tags: ghcr.io/hamada-distributed/k8s-toyapp:frontend-${{ github.sha }}
   test:
     name: "frontend:test"
     runs-on: ubuntu-latest
