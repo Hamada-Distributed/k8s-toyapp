@@ -46,6 +46,7 @@ jobs:
         run: |
           docker pull ghcr.io/hamada-distributed/k8s-toyapp:backend-${{ github.sha }}
           docker run -d -p 8080:8080 -e APP_PORT=8080 ghcr.io/hamada-distributed/k8s-toyapp:backend-${{ github.sha }}
+          sleep 10
           curl localhost:8080/api/status
           exit $?
       - name: push image
