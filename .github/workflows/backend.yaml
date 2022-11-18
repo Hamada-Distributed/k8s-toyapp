@@ -42,14 +42,14 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: pull and run tests
+      - name: Pull and run tests
         run: |
           docker pull ghcr.io/hamada-distributed/k8s-toyapp:backend-${{ github.sha }}
           docker run -d -p 8080:8080 -e APP_PORT=8080 ghcr.io/hamada-distributed/k8s-toyapp:backend-${{ github.sha }}
           sleep 10
           curl localhost:8080/api/status
           exit $?
-      - name: push image
+      - name: Push image
         run: |
-          docker tag ghcr.io/hamada-distributed/k8s-toyapp:${{ github.sha }} ghcr.io/hamada-distributed/k8s-toyapp:backend
+          docker tag ghcr.io/hamada-distributed/k8s-toyapp:backend-${{ github.sha }} ghcr.io/hamada-distributed/k8s-toyapp:backend
           docker push ghcr.io/hamada-distributed/k8s-toyapp:backend
