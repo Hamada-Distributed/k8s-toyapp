@@ -45,6 +45,7 @@ jobs:
         run: |
           docker pull ghcr.io/hamada-distributed/k8s-toyapp:frontend-${{ github.sha }}
           docker run -d -p 8000:8000 ghcr.io/hamada-distributed/k8s-toyapp:frontend-${{ github.sha }}
+          sleep 10
           curl localhost:8000/
           exit $?
       - name: Push new image
