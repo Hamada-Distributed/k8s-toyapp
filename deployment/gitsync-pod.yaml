@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: backend
+spec:
+  containers:
+    - name: backend
+      image: node:16-alpine
+      command:
+        - sh
+        - -c
+        - |
+          cd /var/app
+          sleep 10
+          npm i
+          npm run start
+      env:
+        - name: APP_PORT
+          value: "8080"
+      ports:
+        - containerPort: 8080
+      volumeMounts:
+        - name: repo
+          mountPath: "/var/app"
+    - name: git-sync-sidecar
+      image: k8s.gcr.io/git-sync:v3.1.6
+      volumeMounts:
+        - name: repo
+          mountPath: /git
+      env:
+        - name: GIT_SYNC_ROOT
+          value: "/git"
+        - name: GIT_SYNC_REPO
+          value: "git@github.com:Hamada-Distributed/k8s-toyapp.git"
+        - name: GIT_SYNC_BRANCH
+          value: "release"
+        - name: GIT_SYNC_MAX_FAILURES
+          value: "3"
+        - name: GIT_SYNC_PERIOD
+          value: "600"
+  volumes:
+    - name: repo
+      emptyDir: {}
