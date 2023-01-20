@@ -18,7 +18,7 @@ spec:
       containers:
       - name: backend
         image: ghcr.io/hamada-distributed/k8s-toyapp:backend
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         env:
           - name: APP_PORT
             value: "8080"

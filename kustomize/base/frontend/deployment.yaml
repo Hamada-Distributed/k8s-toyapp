@@ -18,7 +18,7 @@ spec:
       containers:
       - name: frontend
         image: ghcr.io/hamada-distributed/k8s-toyapp:frontend
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent 
         command: [ "bash", "-c", "python3 -m http.server 2>&1" ]
         ports:
           - containerPort: 8000
