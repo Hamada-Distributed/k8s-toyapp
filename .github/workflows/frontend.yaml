@@ -49,7 +49,10 @@ jobs:
           sleep 10
           curl localhost:8000/
           exit $?
-      - name: Push new image
-        run: |
-          docker tag ghcr.io/hamada-distributed/k8s-toyapp:frontend-${{ github.sha }} ghcr.io/hamada-distributed/k8s-toyapp:frontend
-          docker push ghcr.io/hamada-distributed/k8s-toyapp:frontend
+      - uses: docker/build-push-action@v2
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile
+          platforms: linux/arm64,linux/amd64
+          push: true
+          tags: ghcr.io/hamada-distributed/k8s-toyapp:frontend

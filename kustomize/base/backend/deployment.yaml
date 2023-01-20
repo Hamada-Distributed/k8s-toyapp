@@ -1,0 +1,25 @@
+--- # Let's deploy the backend first!
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  labels:
+    app: backend-toy-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-toy-app
+  template:
+    metadata:
+      labels:
+        app: backend-toy-app
+    spec:
+      containers:
+      - name: backend
+        image: ghcr.io/hamada-distributed/k8s-toyapp:backend
+        env:
+          - name: APP_PORT
+            value: "8080"
+        ports:
+          - containerPort: 8080

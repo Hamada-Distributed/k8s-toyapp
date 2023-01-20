@@ -1,0 +1,7 @@
+--- # Let's deploy the frontend!
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  replicas: 3

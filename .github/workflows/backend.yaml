@@ -49,7 +49,10 @@ jobs:
           sleep 10
           curl localhost:8080/api/status
           exit $?
-      - name: Push image
-        run: |
-          docker tag ghcr.io/hamada-distributed/k8s-toyapp:backend-${{ github.sha }} ghcr.io/hamada-distributed/k8s-toyapp:backend
-          docker push ghcr.io/hamada-distributed/k8s-toyapp:backend
+      - uses: docker/build-push-action@v3
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          platforms: linux/arm64,linux/amd64
+          push: true
+          tags: ghcr.io/hamada-distributed/k8s-toyapp:backend

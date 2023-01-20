@@ -1,0 +1,6 @@
+bases:
+  - ./frontend
+  - ./backend
+
+resources:
+  - ingress.yaml

@@ -1,0 +1,9 @@
+--- # Let's deploy the backend first!
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  labels:
+    app: backend-toy-app
+spec:
+  replicas: 3
