@@ -28,7 +28,7 @@ jobs:
           file: ./frontend/Dockerfile
           platforms: linux/arm64,linux/amd64
           push: true
-          tags: ghcr.io/hamada-distributed/k8s-toyapp:frontend-${{ github.sha }}
+          tags: ghcr.io/hamada-distributed/k8s-toyapp-frontend:${{ github.sha }}
   test:
     name: "frontend:test"
     runs-on: ubuntu-latest
@@ -44,15 +44,23 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Pull and test image
         run: |
-          docker pull ghcr.io/hamada-distributed/k8s-toyapp:frontend-${{ github.sha }}
-          docker run -d -p 8000:8000 ghcr.io/hamada-distributed/k8s-toyapp:frontend-${{ github.sha }}
+          docker pull ghcr.io/hamada-distributed/k8s-toyapp-frontend:${{ github.sha }}
+          docker run -d -p 8000:8000 ghcr.io/hamada-distributed/k8s-toyapp-frontend:${{ github.sha }}
           sleep 10
           curl localhost:8000/
           exit $?
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
       - uses: docker/build-push-action@v2
         with:
           context: ./frontend
           file: ./frontend/Dockerfile
           platforms: linux/arm64,linux/amd64
           push: true
-          tags: ghcr.io/hamada-distributed/k8s-toyapp:frontend
+          tags: ghcr.io/hamada-distributed/k8s-toyapp-frontend:${{ steps.date.outputs.date }}
+      - uses: actions/delete-package-versions@v4
+        with:
+          package-name: k8s-toyapp-frontend
+          package-type: container
+          min-versions-to-keep: 6
