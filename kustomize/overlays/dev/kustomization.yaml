@@ -4,3 +4,4 @@ bases:
 patches:
   - ./frontend/deployment.yaml
   - ./backend/deployment.yaml
+  - ./ingress.yaml
